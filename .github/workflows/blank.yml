@@ -1,22 +1,19 @@
 
-name: Testes automatizados
+import unittest
 
-on:
-  push:
-  pull_request:
+def calcular_saldo(receitas, despesas):
+    return receitas - despesas
 
-jobs:
-  testes:
-    runs-on: ubuntu-latest
+class TestMeuDinheiro(unittest.TestCase):
+    def test_calcular_saldo(self):
+        self.assertEqual(calcular_saldo(2500, 120), 2380)
 
-    steps:
-      - name: Baixar código
-        uses: actions/checkout@v4
+    def test_saldo_sem_despesas(self):
+        self.assertEqual(calcular_saldo(2500, 0), 2500)
 
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+    def test_saldo_zero(self):
+        self.assertEqual(calcular_saldo(0, 0), 0)
 
-      - name: Executar testes
-        run: python -m unittest discover -v
+if __name__ == "__main__":
+    unittest.main()
+
